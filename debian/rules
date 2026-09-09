@@ -17,8 +17,11 @@ override_dh_auto_test:
 
 override_dh_auto_install:
 	dh_auto_install
-	# glib-compile-schemas output is produced by the maintainer scripts;
-	# shipping it would conflict with every other schema-providing package.
+	# Upstream's schemas/meson.build runs glib-compile-schemas at install
+	# time -- that is why libglib2.0-bin is a build dependency (the binary
+	# lives there, NOT in libglib2.0-dev-bin). We keep the validation but
+	# drop its output: shipping gschemas.compiled would conflict with every
+	# other schema-providing package. The maintainer scripts regenerate it.
 	rm -f $(PKGDIR)/usr/share/glib-2.0/schemas/gschemas.compiled
 
 	# GSettings override with our defaults

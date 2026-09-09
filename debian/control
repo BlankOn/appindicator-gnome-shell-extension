@@ -5,7 +5,7 @@ Maintainer: BlankOn Linux <blankon-dev@googlegroups.com>
 Build-Depends: debhelper-compat (= 13),
                gettext,
                jq,
-               libglib2.0-dev-bin,
+               libglib2.0-bin,
                meson (>= 0.53),
                ninja-build
 Standards-Version: 4.6.2
