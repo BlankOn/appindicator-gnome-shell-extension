@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=AppIndicator Extension Updater
+Exec=/usr/lib/appindicator-extension/appindicator-update-user.sh
+Hidden=false
+NoDisplay=true
+X-GNOME-Autostart-enabled=true

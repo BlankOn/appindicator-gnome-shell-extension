@@ -1,0 +1,9 @@
+appindicator-gnome-shell-extension (65-1) sinambung; urgency=medium
+
+  * Initial BlankOn packaging of the AppIndicator/KStatusNotifierItem
+    GNOME Shell extension, based on upstream v65.
+  * Per-user autostart-based deployment for extension management,
+    matching tilingshell-gnome-shell-extension.
+  * Ship a GSettings override carrying the BlankOn defaults.
+
+ -- BlankOn Linux <blankon-dev@googlegroups.com>  Thu, 10 Sep 2026 01:00:00 +0700

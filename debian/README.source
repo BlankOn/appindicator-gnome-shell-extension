@@ -1,0 +1,51 @@
+Packaging layout and rebase workflow
+====================================
+
+This is a fork of ubuntu/gnome-shell-extension-appindicator. The branch
+layout is deliberately kept as simple as possible so that following
+upstream is a plain rebase:
+
+  master      tracks upstream, never modified by us
+  sinambung   master + a single commit adding debian/
+
+The packaging adds files under debian/ and changes nothing else. No
+upstream-owned file is patched -- not meson.build, not metadata.json, not
+the root .gitignore. Build artifacts are kept inside debian/build (see
+--builddirectory in debian/rules) and are covered by debian/.gitignore,
+so upstream's own .gitignore needs no edits either.
+
+The consequence is that `git rebase upstream/master` should never
+conflict. If it ever does, that is a signal we started patching upstream
+files and should reconsider.
+
+Remotes
+-------
+
+  origin     git@github.com:BlankOn/appindicator-gnome-shell-extension.git
+  upstream   https://github.com/ubuntu/gnome-shell-extension-appindicator.git
+
+Following a new upstream release
+--------------------------------
+
+  git fetch --tags upstream
+  git checkout master && git merge --ff-only upstream/master && git push origin master
+  git checkout sinambung && git rebase upstream/master
+
+Then record the new version. The package version is taken solely from
+debian/changelog -- upstream's meson.build version field is left alone,
+even when it lags behind the git tag -- so a release is:
+
+  dch -v <upstream-version>-1
+  git commit -am "Bump to <upstream-version>-1."
+  git push --force-with-lease origin sinambung
+
+Note that debian/changelog must be bumped for any change to reach users:
+appindicator-update-user.sh keys the per-user copy in ~/.local/share on
+the dpkg version recorded in .installed-version, so without a new version
+the user copy is never refreshed.
+
+Building
+--------
+
+  dpkg-buildpackage -us -uc -b
+  debian/rules clean      # leaves the tree pristine for rebasing

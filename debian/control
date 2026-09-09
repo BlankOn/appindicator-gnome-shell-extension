@@ -1,0 +1,27 @@
+Source: appindicator-gnome-shell-extension
+Section: gnome
+Priority: optional
+Maintainer: BlankOn Linux <blankon-dev@googlegroups.com>
+Build-Depends: debhelper-compat (= 13),
+               gettext,
+               jq,
+               libglib2.0-dev-bin,
+               meson (>= 0.53),
+               ninja-build
+Standards-Version: 4.6.2
+Homepage: https://github.com/ubuntu/gnome-shell-extension-appindicator
+Rules-Requires-Root: no
+
+Package: appindicator-gnome-shell-extension
+Architecture: all
+Depends: gnome-shell (>= 45~), ${misc:Depends}
+Provides: gnome-shell-extension-appindicator
+Conflicts: gnome-shell-extension-appindicator
+Replaces: gnome-shell-extension-appindicator
+Description: AppIndicator and KStatusNotifierItem Support GNOME Shell Extension
+ A GNOME Shell extension that adds AppIndicator, KStatusNotifierItem and
+ legacy XEmbed Tray icons support to the Shell, so applications that only
+ provide a tray icon keep working on modern GNOME desktops.
+ .
+ This package deploys the extension system-wide and keeps a per-user copy
+ in sync on login, so the extension stays enabled across upgrades.

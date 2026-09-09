@@ -1,0 +1,8 @@
+# All build artifacts are kept under debian/ (see --builddirectory in rules)
+/build/
+/.debhelper/
+/appindicator-gnome-shell-extension/
+/*.debhelper.log
+/*.substvars
+/debhelper-build-stamp
+/files

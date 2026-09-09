@@ -1,0 +1,37 @@
+#!/usr/bin/make -f
+
+export DH_VERBOSE = 1
+
+PKGDIR = $(CURDIR)/debian/appindicator-gnome-shell-extension
+
+# Build inside debian/ so no upstream-owned path gains build artifacts and
+# debian/.gitignore alone is enough to keep the tree clean for rebasing.
+%:
+	dh $@ --buildsystem=meson --builddirectory=debian/build
+
+override_dh_auto_configure:
+	dh_auto_configure -- -Dlocal_install=disabled
+
+# Upstream's only test is an eslint run needing the JS toolchain.
+override_dh_auto_test:
+
+override_dh_auto_install:
+	dh_auto_install
+	# glib-compile-schemas output is produced by the maintainer scripts;
+	# shipping it would conflict with every other schema-providing package.
+	rm -f $(PKGDIR)/usr/share/glib-2.0/schemas/gschemas.compiled
+
+	# GSettings override with our defaults
+	install -d $(PKGDIR)/usr/share/glib-2.0/schemas
+	install -m 644 debian/10_appindicator.gschema.override \
+		$(PKGDIR)/usr/share/glib-2.0/schemas/
+
+	# Per-user update script
+	install -d $(PKGDIR)/usr/lib/appindicator-extension
+	install -m 755 debian/appindicator-update-user.sh \
+		$(PKGDIR)/usr/lib/appindicator-extension/
+
+	# Autostart desktop file, seeded into /etc/skel for new users
+	install -d $(PKGDIR)/etc/skel/.config/autostart
+	install -m 644 debian/appindicator-extension-update.desktop \
+		$(PKGDIR)/etc/skel/.config/autostart/

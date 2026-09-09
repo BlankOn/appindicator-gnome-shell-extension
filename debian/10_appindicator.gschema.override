@@ -1,0 +1,12 @@
+# BlankOn defaults for the AppIndicator/KStatusNotifierItem extension.
+#
+# NOTE: org.gnome.shell enabled-extensions is deliberately NOT set here.
+# GSettings overrides do not merge list values, so whichever override file
+# sorts last wins the whole key -- writing it here would fight with
+# 10_tilingshell.gschema.override. The extension is enabled per user by
+# appindicator-update-user.sh instead.
+
+[org.gnome.shell.extensions.appindicator]
+legacy-tray-enabled=true
+compact-mode-enabled=true
+tray-pos='right'
